@@ -1,8 +1,9 @@
 /* eslint-disable max-classes-per-file */
-import { AddAccount, AddAccountModel } from '../../domain/use-cases/add-account';
-import { AccountModel } from '../../domain/models/account';
-import { InvalidParamError, MissingParamError, ServerError } from '../errors';
-import { HttpRequest, EmailValidator } from '../protocols';
+
+import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
+import {
+  AccountModel, AddAccount, AddAccountModel, EmailValidator, HttpRequest,
+} from './signup-protocols';
 import { SignUpController } from './signup';
 
 const makeFakeRequest = (): HttpRequest => ({
