@@ -12,6 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:unit": "yarn test --silent -c jest-unit.config.js",
+    "test:integration": "yarn test --silent -c jest-integration.config.js",
     "test:staged": "yarn test --findRelatedTests",
     "test:coverage": "yarn test --coverage",
     "prepare": "husky install"
