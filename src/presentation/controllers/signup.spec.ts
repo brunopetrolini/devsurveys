@@ -1,6 +1,5 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../errors';
-import { EmailValidator } from '../protocols/email-validator';
-import { HttpRequest } from '../protocols/http';
+import { HttpRequest, EmailValidator } from '../protocols';
 import { SignUpController } from './signup';
 
 const makeFakeRequest = (): HttpRequest => ({
