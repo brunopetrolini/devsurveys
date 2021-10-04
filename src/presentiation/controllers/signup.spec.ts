@@ -1,8 +1,10 @@
 import { SignUpController } from './signup';
 
+const makeSut = (): SignUpController => new SignUpController();
+
 describe('SignUp Controller', () => {
   it('Should return 400 if no name is provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
@@ -16,7 +18,7 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if no email is provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         name: 'any_name',
