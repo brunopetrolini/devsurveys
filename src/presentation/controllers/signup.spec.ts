@@ -1,3 +1,6 @@
+/* eslint-disable max-classes-per-file */
+import { AddAccount, AddAccountModel } from '../../domain/use-cases/add-account';
+import { AccountModel } from '../../domain/models/account';
 import { InvalidParamError, MissingParamError, ServerError } from '../errors';
 import { HttpRequest, EmailValidator } from '../protocols';
 import { SignUpController } from './signup';
@@ -21,14 +24,31 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub();
 };
 
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    // eslint-disable-next-line no-unused-vars
+    async add(account: AddAccountModel): Promise<AccountModel> {
+      return Promise.resolve({
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'hashed_password',
+      });
+    }
+  }
+  return new AddAccountStub();
+};
+
 type SutTypes = {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
+  addAccountStub: AddAccount;
 }
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
-  const sut = new SignUpController(emailValidatorStub);
-  return { sut, emailValidatorStub };
+  const addAccountStub = makeAddAccount();
+  const sut = new SignUpController(emailValidatorStub, addAccountStub);
+  return { sut, emailValidatorStub, addAccountStub };
 };
 
 describe('SignUp Controller', () => {
@@ -126,5 +146,16 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  it('Should call AddAccount with correct values', async () => {
+    const { sut, addAccountStub } = makeSut();
+    const addSpy = jest.spyOn(addAccountStub, 'add');
+    await sut.handle(makeFakeRequest());
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
   });
 });
