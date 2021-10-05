@@ -1,5 +1,4 @@
-import { AddAccount, AddAccountModel } from '../../../domain/use-cases/add-account';
-import { Encrypter } from '../../protocols/encrypter';
+import { AddAccount, AddAccountModel, Encrypter } from './db-add-account-protocols';
 import { DbAddAccount } from './db-add-account';
 
 const makeFakeAccount = (): AddAccountModel => ({
