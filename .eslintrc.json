@@ -21,6 +21,7 @@
       "import/extensions": "off",
       "import/no-unresolved": "off",
       "no-restricted-syntax": "off",
-      "lines-between-class-members": "off"
+      "lines-between-class-members": "off",
+      "no-underscore-dangle": "off"
     }
 }
