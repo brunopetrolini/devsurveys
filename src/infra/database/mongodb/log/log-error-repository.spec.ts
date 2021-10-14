@@ -5,7 +5,7 @@ import { MongoLogErrorRepository } from './log-error-repository';
 
 const makeSut = (): LogErrorRepository => new MongoLogErrorRepository();
 
-describe('LogError Repository', () => {
+describe('MongoLogErrorRepository', () => {
   let errorCollection: Collection;
 
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('LogError Repository', () => {
 
   it('Should save an error log', async () => {
     const sut = makeSut();
-    await sut.log('any_stack');
+    await sut.logError('any_stack');
     const documentsCount = await errorCollection.countDocuments();
     expect(documentsCount).toBe(1);
   });
