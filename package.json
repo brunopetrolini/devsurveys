@@ -1,6 +1,6 @@
 {
   "name": "devsurveys",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/main/server.js",
   "repository": "git@github.com:brunopetrolini/devsurveys.git",
   "author": "Bruno Petrolini <brunopetrolini@hotmail.com>",
