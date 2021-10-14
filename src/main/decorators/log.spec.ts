@@ -14,7 +14,12 @@ const makeFakeRequest = (): HttpRequest => ({
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-      return Promise.resolve({ statusCode: 200, body: {} });
+      return Promise.resolve({
+        statusCode: 200,
+        body: {
+          name: 'Bruno Petrolini',
+        },
+      });
     }
   }
   return new ControllerStub();
@@ -37,5 +42,16 @@ describe('LogControllerDecorator', () => {
     const httpRequest = makeFakeRequest();
     await sut.handle(httpRequest);
     expect(handleSpy).toHaveBeenCalledWith(httpRequest);
+  });
+
+  it('Should return the same result of the controller', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: {
+        name: 'Bruno Petrolini',
+      },
+    });
   });
 });
