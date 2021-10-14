@@ -1,4 +1,7 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
+import { LogErrorRepository } from '../../data/protocols/log-error-repository';
+import { serverError } from '../../presentation/helpers/http-helper';
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols';
 import { LogControllerDecorator } from './log';
 
@@ -25,14 +28,25 @@ const makeController = (): Controller => {
   return new ControllerStub();
 };
 
+const makeLogErrorRepository = (): LogErrorRepository => {
+  class LogErrorRepositoryStub implements LogErrorRepository {
+    async log(stack: string): Promise<void> {
+      Promise.resolve(null);
+    }
+  }
+  return new LogErrorRepositoryStub();
+};
+
 type SutTypes = {
   controllerStub: Controller,
+  logErrorRepositoryStub: LogErrorRepository,
   sut: LogControllerDecorator,
 }
 const makeSut = (): SutTypes => {
   const controllerStub = makeController();
-  const sut = new LogControllerDecorator(controllerStub);
-  return { controllerStub, sut };
+  const logErrorRepositoryStub = makeLogErrorRepository();
+  const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
+  return { controllerStub, logErrorRepositoryStub, sut };
 };
 
 describe('LogControllerDecorator', () => {
@@ -53,5 +67,16 @@ describe('LogControllerDecorator', () => {
         name: 'Bruno Petrolini',
       },
     });
+  });
+
+  it('Should call LogErrorRepository with correct error if controller return a server error', async () => {
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut();
+    const fakeError = new Error();
+    fakeError.stack = 'any_stack';
+    const error = serverError(fakeError);
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(Promise.resolve(error));
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log');
+    await sut.handle(makeFakeRequest());
+    expect(logSpy).toHaveBeenCalledWith(fakeError.stack);
   });
 });
