@@ -1,14 +1,34 @@
+/* eslint-disable no-unused-vars */
 import { MissingParamError } from '../../errors';
 import { badRequest } from '../../helpers/http-helper';
 import { HttpRequest } from '../../protocols';
+import { EmailValidator } from '../signup/signup-protocols';
 import { LoginController } from './login';
+
+const makeFakeRequest = (): HttpRequest => ({
+  body: {
+    email: 'any_email@mail.com',
+    password: 'any_password',
+  },
+});
+
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
+      return true;
+    }
+  }
+  return new EmailValidatorStub();
+};
 
 type SutTypes = {
   sut: LoginController;
+  emailValidatorStub: EmailValidator;
 }
 const makeSut = (): SutTypes => {
-  const sut = new LoginController();
-  return { sut };
+  const emailValidatorStub = makeEmailValidator();
+  const sut = new LoginController(emailValidatorStub);
+  return { sut, emailValidatorStub };
 };
 
 describe('Login Controller', () => {
@@ -32,5 +52,12 @@ describe('Login Controller', () => {
     };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
+  });
+
+  it('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut();
+    const isEmailSpy = jest.spyOn(emailValidatorStub, 'isValid');
+    await sut.handle(makeFakeRequest());
+    expect(isEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
 });
