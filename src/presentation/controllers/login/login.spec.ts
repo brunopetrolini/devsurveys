@@ -2,7 +2,9 @@
 /* eslint-disable no-unused-vars */
 
 import { MissingParamError, InvalidParamError } from '../../errors';
-import { badRequest, serverError, unauthorized } from '../../helpers/http-helper';
+import {
+  badRequest, ok, serverError, unauthorized,
+} from '../../helpers/http-helper';
 import { LoginController } from './login';
 import { Authentication, EmailValidator, HttpRequest } from './login-protocols';
 
@@ -108,5 +110,11 @@ describe('Login Controller', () => {
     jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError(new Error()));
+  });
+
+  it('Should return a access token on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }));
   });
 });
