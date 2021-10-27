@@ -1,11 +1,10 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
-import { Authentication } from '../../../domain/use-cases/authentication';
-import { InvalidParamError, MissingParamError } from '../../errors';
+
+import { MissingParamError, InvalidParamError } from '../../errors';
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helper';
-import { HttpRequest } from '../../protocols';
-import { EmailValidator } from '../signup/signup-protocols';
 import { LoginController } from './login';
+import { Authentication, EmailValidator, HttpRequest } from './login-protocols';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
