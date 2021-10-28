@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
 import {
-  AccountModel, AddAccount, AddAccountModel, EmailValidator, HttpRequest,
+  AccountModel, AddAccount, AddAccountModel, EmailValidator, HttpRequest, Validation,
 } from './signup-protocols';
 import { SignUpController } from './signup';
 
@@ -17,7 +18,6 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    // eslint-disable-next-line no-unused-vars
     isValid(email: string): boolean {
       return true;
     }
@@ -25,9 +25,17 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub();
 };
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate(data: any): null | Error {
+      return null;
+    }
+  }
+  return new ValidationStub();
+};
+
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    // eslint-disable-next-line no-unused-vars
     async add(account: AddAccountModel): Promise<AccountModel> {
       return Promise.resolve({
         id: 'valid_id',
@@ -44,12 +52,16 @@ type SutTypes = {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
   addAccountStub: AddAccount;
+  validationStub: Validation;
 }
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
+  const validationStub = makeValidation();
   const addAccountStub = makeAddAccount();
-  const sut = new SignUpController(emailValidatorStub, addAccountStub);
-  return { sut, emailValidatorStub, addAccountStub };
+  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub);
+  return {
+    sut, emailValidatorStub, addAccountStub, validationStub,
+  };
 };
 
 describe('SignUp Controller', () => {
@@ -180,5 +192,13 @@ describe('SignUp Controller', () => {
       email: 'valid_email@mail.com',
       password: 'hashed_password',
     });
+  });
+
+  it('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+    const httpRequest = makeFakeRequest();
+    await sut.handle(httpRequest);
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
