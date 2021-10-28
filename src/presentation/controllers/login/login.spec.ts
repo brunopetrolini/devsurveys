@@ -117,4 +117,8 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }));
   });
+
+  it('Skip pre commit test', () => {
+    expect(1).toBe(2);
+  });
 });
