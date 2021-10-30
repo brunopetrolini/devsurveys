@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { MissingParamError } from '../../errors';
-import { Validation } from './validation';
+import { Validation } from '../../protocols/validation';
 import { ValidationComposite } from './validation-composite';
 
 const makeValidation = (): Validation => {
