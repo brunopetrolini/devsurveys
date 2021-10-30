@@ -1,10 +1,10 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
 
-import { MissingParamError, InvalidParamError } from '../../errors';
+import { MissingParamError } from '../../errors';
 import {
-  badRequest, ok, serverError, unauthorized,
-} from '../../helpers/http-helper';
+  unauthorized, serverError, badRequest, ok,
+} from '../../helpers/http/http-helper';
 import { LoginController } from './login';
 import { Authentication, HttpRequest, Validation } from './login-protocols';
 
