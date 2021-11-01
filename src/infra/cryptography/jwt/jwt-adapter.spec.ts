@@ -3,7 +3,7 @@ import { JwtAdapter } from './jwt-adapter';
 
 jest.mock('jsonwebtoken', () => ({
   async sign(): Promise<string> {
-    return Promise.resolve('hashed_value');
+    return 'hashed_value';
   },
 }));
 
@@ -29,5 +29,14 @@ describe('Jwt Adapter', () => {
     const { sut } = makeSut();
     const accessToken = await sut.encrypt('any_id');
     expect(accessToken).toBe('hashed_value');
+  });
+
+  it('Should throw if sign throws', async () => {
+    const { sut } = makeSut();
+    jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = sut.encrypt('any_id');
+    await expect(promise).rejects.toThrow();
   });
 });
