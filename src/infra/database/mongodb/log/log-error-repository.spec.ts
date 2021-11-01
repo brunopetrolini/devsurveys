@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb';
-import { LogErrorRepository } from '../../../../data/protocols/log-error-repository';
+import { LogErrorRepository } from '../../../../data/protocols/database/log-error-repository';
 import { MongoHelper } from '../../helpers/mongo-helper';
 import { MongoLogErrorRepository } from './log-error-repository';
 

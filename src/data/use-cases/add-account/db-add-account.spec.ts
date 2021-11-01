@@ -4,7 +4,7 @@ import {
   AccountModel, AddAccount, AddAccountModel, Encrypter,
 } from './db-add-account-protocols';
 import { DbAddAccount } from './db-add-account';
-import { AddAccountRepository } from '../../protocols/add-account-repository';
+import { AddAccountRepository } from '../../protocols/database/add-account-repository';
 
 const makeFakeAccount = (): AddAccountModel => ({
   name: 'valid_name',

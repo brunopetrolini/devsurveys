@@ -1,4 +1,4 @@
-import { AddAccountRepository } from '../../protocols/add-account-repository';
+import { AddAccountRepository } from '../../protocols/database/add-account-repository';
 import {
   AddAccount, Encrypter, AddAccountModel, AccountModel,
 } from './db-add-account-protocols';
