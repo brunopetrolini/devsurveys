@@ -1,4 +1,4 @@
 /* eslint-disable no-unused-vars */
 export interface UpdateAccessTokenRepository {
-  update(id: string, value: string): Promise<boolean>;
+  updateAccessToken(id: string, value: string): Promise<boolean>;
 }
