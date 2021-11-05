@@ -23,6 +23,6 @@ export const MongoHelper = {
 
   map(data: any): any {
     const { _id, ...rest } = data;
-    return { id: String(_id), rest };
+    return { id: String(_id), ...rest };
   },
 };
