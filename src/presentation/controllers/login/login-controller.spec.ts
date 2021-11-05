@@ -5,7 +5,7 @@ import { MissingParamError } from '../../errors';
 import {
   unauthorized, serverError, badRequest, ok,
 } from '../../helpers/http/http-helper';
-import { LoginController } from './login';
+import { LoginController } from './login-controller';
 import {
   Authentication, AuthenticationModel, HttpRequest, Validation,
 } from './login-protocols';
