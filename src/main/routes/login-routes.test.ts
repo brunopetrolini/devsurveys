@@ -35,7 +35,7 @@ describe('Login Routes', () => {
   });
 
   describe('POST /login', () => {
-    it('Should return 200 on signup', async () => {
+    it('Should return 200 on login', async () => {
       const password = await hash('123456', 12);
       await accountCollection.insertOne({
         name: 'Bruno Petrolini',
@@ -49,6 +49,21 @@ describe('Login Routes', () => {
           password: '123456',
         })
         .expect(200);
+    });
+
+    it('Should return 401 on login', async () => {
+      await accountCollection.insertOne({
+        name: 'Bruno Petrolini',
+        email: 'bruno@mail.com',
+        password: '123456',
+      });
+      await supertest(app)
+        .post('/api/login')
+        .send({
+          email: 'bruno@mail.com',
+          password: 'invalid_password',
+        })
+        .expect(401);
     });
   });
 });
