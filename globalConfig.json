@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"mongoUri":"mongodb://127.0.0.1:46719/","mongoDBName":"jest"}
+=======
+{"mongoUri":"mongodb://127.0.0.1:37867/","mongoDBName":"jest"}
+>>>>>>> 78753e32ac3f5b1da04d4f7d35e2aabfa3c54788
