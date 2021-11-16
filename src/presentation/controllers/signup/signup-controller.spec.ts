@@ -97,12 +97,7 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse.statusCode).toBe(200);
-    expect(httpResponse.body).toEqual({
-      id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'hashed_password',
-    });
+    expect(httpResponse.body).toEqual({ accessToken: 'any_token' });
   });
 
   it('Should call Validation with correct value', async () => {
@@ -125,8 +120,8 @@ describe('SignUp Controller', () => {
     const authSpy = jest.spyOn(authenticationStub, 'auth');
     await sut.handle(makeFakeRequest());
     expect(authSpy).toHaveBeenCalledWith({
-      email: 'any_email@mail.com',
-      password: 'any_password',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password',
     });
   });
 
