@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { InvalidParamError } from '../../errors';
-import { EmailValidator } from '../../protocols/email-validator';
+import { InvalidParamError } from '../../presentation/errors';
+import { EmailValidator } from '../protocols/email-validator';
 import { EmailValidation } from './email-validation';
 
 const makeEmailValidator = (): EmailValidator => {
