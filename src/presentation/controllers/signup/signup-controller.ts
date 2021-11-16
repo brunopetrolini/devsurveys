@@ -1,7 +1,6 @@
 import { badRequest, ok, serverError } from '../../helpers/http/http-helper';
-import { Authentication } from '../login/login-protocols';
 import {
-  AddAccount, Controller, HttpRequest, HttpResponse, Validation,
+  AddAccount, Controller, HttpRequest, HttpResponse, Validation, Authentication,
 } from './signup-protocols';
 
 export class SignUpController implements Controller {
@@ -23,7 +22,7 @@ export class SignUpController implements Controller {
       }
       const { name, email, password } = httpRequest.body;
       const account = await this.addAccount.add({ name, email, password });
-      this.authentication.auth({ email, password });
+      await this.authentication.auth({ email, password });
       return ok(account);
     } catch (error) {
       return serverError(error as Error);
