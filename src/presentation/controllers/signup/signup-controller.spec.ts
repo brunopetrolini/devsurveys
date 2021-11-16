@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
-import { MissingParamError, ServerError } from '../../errors';
+import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
 import {
   AccountModel,
   AddAccount,
@@ -12,7 +12,7 @@ import {
   Validation,
 } from './signup-protocols';
 import { SignUpController } from './signup-controller';
-import { badRequest, serverError } from '../../helpers/http/http-helper';
+import { badRequest, forbidden, serverError } from '../../helpers/http/http-helper';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -91,6 +91,13 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError(''));
+  });
+
+  it('Should return 403 if AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut();
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null));
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
   });
 
   it('Should return 200 if valid data is provided', async () => {
