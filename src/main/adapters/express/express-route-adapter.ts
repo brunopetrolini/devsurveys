@@ -6,12 +6,12 @@ export function expressRouteAdapter(controller: Controller) {
     const httpRequest: HttpRequest = {
       body: request.body,
     };
-    const httpResponse = await controller.handle(httpRequest);
-    if (httpResponse.statusCode === 200) {
-      response.status(httpResponse.statusCode).json(httpResponse.body);
+    const { statusCode, body } = await controller.handle(httpRequest);
+    if (statusCode >= 200 || statusCode <= 299) {
+      response.status(statusCode).json(body);
     } else {
-      response.status(httpResponse.statusCode).json({
-        error: httpResponse.body.message,
+      response.status(statusCode).json({
+        error: body.message,
       });
     }
   };
