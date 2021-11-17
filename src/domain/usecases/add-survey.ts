@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 export interface SurveyAnswer {
-  image: string;
+  image?: string;
   answer: string;
 }
 
