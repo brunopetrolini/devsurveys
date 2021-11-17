@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { AddSurvey, AddSurveyModel } from '../../../domain/usecases/add-survey';
-import { AddSurveyRepository } from '../../protocols/database/survey/add-survey-repository';
 import { DbAddSurvey } from './db-add-survey';
+import { AddSurveyModel, AddSurveyRepository, AddSurvey } from './db-add-survey-protocols';
 
 const makeFakeSurvey = (): AddSurveyModel => ({
   question: 'any_question',
