@@ -1,15 +1,14 @@
 /* eslint-disable max-classes-per-file */
-/* eslint-disable no-unused-vars */
-
-import { MissingParamError } from '../../errors';
+import { MissingParamError } from '../../../errors';
 import {
   unauthorized, serverError, badRequest, ok,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 import { LoginController } from './login-controller';
 import {
-  Authentication, AuthenticationModel, HttpRequest, Validation,
+  HttpRequest, Authentication, AuthenticationModel, Validation,
 } from './login-protocols';
 
+/* eslint-disable no-unused-vars */
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     email: 'any_email@mail.com',

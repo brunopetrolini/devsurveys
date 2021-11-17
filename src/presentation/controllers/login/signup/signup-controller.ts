@@ -1,7 +1,7 @@
-import { EmailInUseError } from '../../errors';
+import { EmailInUseError } from '../../../errors';
 import {
   badRequest, forbidden, ok, serverError,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 import {
   AddAccount, Controller, HttpRequest, HttpResponse, Validation, Authentication,
 } from './signup-protocols';

@@ -21,6 +21,11 @@ export const serverError = (error: Error): HttpResponse => ({
   body: new ServerError(String(error.stack)),
 });
 
+export const noContent = (): HttpResponse => ({
+  statusCode: 204,
+  body: null,
+});
+
 export const ok = (content: any): HttpResponse => ({
   statusCode: 200,
   body: content,

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
-import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
+import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
 import {
   AccountModel,
   AddAccount,
@@ -12,7 +12,7 @@ import {
   Validation,
 } from './signup-protocols';
 import { SignUpController } from './signup-controller';
-import { badRequest, forbidden, serverError } from '../../helpers/http/http-helper';
+import { badRequest, forbidden, serverError } from '../../../helpers/http/http-helper';
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
