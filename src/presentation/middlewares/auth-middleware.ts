@@ -10,7 +10,6 @@ export class AuthMiddleware implements Middleware {
     this.loadAccountByToken = loadAccountByToken;
   }
 
-  // eslint-disable-next-line no-unused-vars
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const accessToken = httpRequest.headers?.['x-access-token'];
     if (accessToken) {
